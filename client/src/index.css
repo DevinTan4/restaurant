@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-default {
+  background-image: url("./assets/images/backgrounds/backgroundImg.png");
+}
