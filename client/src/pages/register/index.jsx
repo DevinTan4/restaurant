@@ -8,7 +8,7 @@ const RegisterPage = () => {
         <h1 className="text-[32px] font-semibold font-goudy">
           Create account.
         </h1>
-        <p className="font-light text-beige font-inter">
+        <p className="text-xs font-light text-beige font-inter">
           Create Your Account Today
         </p>
       </div>
