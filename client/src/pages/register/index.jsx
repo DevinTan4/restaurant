@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { eyeIcon } from "../../assets/icons";
 import { bannerImg, bannerImgDesktop } from "../../assets/images";
-import { useEffect, useState } from "react";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -11,7 +10,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="lg:h-[1366px] desktop:h-[1024px] lg:flex lg:flex-col desktop:flex-row">
+    <div className="h-[844px] lg:h-[1366px] desktop:h-[1024px] lg:flex lg:flex-col desktop:flex-row">
       {/* Banner */}
       <div className="lg:h-1/2 desktop:w-1/2 desktop:h-full">
         <picture>
@@ -26,7 +25,7 @@ const RegisterPage = () => {
       </div>
 
       {/* Form */}
-      <div className="h-full px-10 py-20 text-white bg-black bg-opacity-100 bg-default font-inter lg:h-1/2 lg:px-40 lg:pt-10 lg:pb-[38px] desktop:w-1/2 desktop:h-full desktop:px-[120px] desktop:py-[172px] object-cover">
+      <div className="h-full px-10 py-20 text-white bg-black bg-opacity-100 bg-default font-inter lg:h-1/2 lg:px-60 lg:pt-10 lg:pb-[38px] desktop:w-1/2 desktop:h-full desktop:px-[120px] desktop:py-[172px] object-cover">
         {/* Title */}
         <div>
           <h1 className="text-[32px] font-semibold font-goudy lg:text-[44px]">
