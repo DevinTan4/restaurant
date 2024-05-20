@@ -10,6 +10,9 @@ export default {
       colors: {
         beige: "#E4C68F",
       },
+      screens: {
+        desktop: "1366px",
+      },
     },
   },
   plugins: [],

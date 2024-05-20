@@ -5,3 +5,15 @@
 .bg-default {
   background-image: url("./assets/images/backgrounds/backgroundImg.png");
 }
+
+@media (min-width: 1024px) {
+  .bg-default {
+    background-image: url("./assets/images/backgrounds/backgroundImgTablet.png");
+  }
+}
+
+@media (min-width: 1366px) {
+  .bg-default {
+    background-image: url("./assets/images/backgrounds/backgroundImgDesktop.png");
+  }
+}
