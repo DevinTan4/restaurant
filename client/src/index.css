@@ -17,3 +17,7 @@
     background-image: url("./assets/images/backgrounds/backgroundImgDesktop.png");
   }
 }
+
+.home-bg {
+  background-image: url(./assets/images/backgrounds/homeBackgroundImgMobile.png);
+}

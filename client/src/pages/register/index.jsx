@@ -1,12 +1,32 @@
 import { Link, useNavigate } from "react-router-dom";
 import { eyeIcon } from "../../assets/icons";
 import { bannerImg, bannerImgDesktop } from "../../assets/images";
+import { useState } from "react";
+import axios from "axios";
 
 const RegisterPage = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSignUp = () => {
     navigate("/login");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/account/register", {
+        username,
+        email,
+        phone,
+        password,
+      })
+      .then((result) => console.log(result))
+      .catch((error) => console.log(error));
+    handleSignUp();
   };
 
   return (
@@ -38,42 +58,61 @@ const RegisterPage = () => {
 
         {/* InputForm */}
         <div className="mt-[77px] lg:mt-[52px]">
-          <form action="" className="flex flex-col gap-5 lg:gap-[22px]">
+          <form
+            action=""
+            className="flex flex-col gap-5 lg:gap-[22px]"
+            onSubmit={handleSubmit}
+          >
             {/* Username */}
             <input
               type="text"
+              name="username"
               placeholder="Username"
+              autoComplete="off"
               className="text-xl font-light bg-transparent border-b h-[52px] focus:outline-none w-full placeholder:text-lg lg:placeholder:text-xl"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
             {/* Email */}
             <input
               type="email"
+              name="email"
               placeholder="Email"
+              autoComplete="off"
               className="text-xl font-light bg-transparent border-b h-[52px] focus:outline-none w-full placeholder:text-lg lg:placeholder:text-xl"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             {/* Phone Number */}
             <input
               type="text"
+              name="phone"
               placeholder="Phone Number"
+              autoComplete="off"
               className="text-xl font-light bg-transparent border-b h-[52px] focus:outline-none w-full placeholder:text-lg lg:placeholder:text-xl"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
             />
             {/* Password */}
             <div className="flex items-center border-b">
               <input
                 type="password"
+                name="password"
                 placeholder="Password"
                 className="text-xl font-light bg-transparent h-[52px] focus:outline-none w-full placeholder:text-lg lg:placeholder:text-xl"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <img src={eyeIcon} alt="eyeIcon" className="size-6 lg:size-7" />
             </div>
+            {/* Sign Up Button */}
+            <button
+              className="font-medium border h-[43px] w-full mt-[57px] lg:mt-[30px] lg:text-xl lg:h-14"
+              type="submit"
+            >
+              SIGN UP
+            </button>
           </form>
-          {/* Sign Up */}
-          <button
-            className="font-medium border h-[43px] w-full mt-[77px] lg:mt-[52px] lg:text-xl lg:h-14"
-            onClick={handleSignUp}
-          >
-            SIGN UP
-          </button>
           <p className="mt-[77px] text-center text-beige lg:mt-[52px]">
             Already have an account?{" "}
             <span className="font-bold text-white">

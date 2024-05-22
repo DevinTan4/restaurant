@@ -1,8 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { eyeIcon } from "../../assets/icons";
 import { bannerImg, bannerImgDesktop } from "../../assets/images";
+import axios from "axios";
+import { useState } from "react";
 
 const LoginPage = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/account/login", { username, password })
+      .then((result) => {
+        console.log(result);
+        if (result.data === "Success") {
+          localStorage.setItem("token", result.data.token);
+          alert("Login success!");
+          navigate("/");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="h-[844px] lg:h-[1366px] desktop:h-[1024px] lg:flex lg:flex-col desktop:flex-row">
       {/* Banner */}
@@ -32,35 +53,53 @@ const LoginPage = () => {
 
         {/* InputForm */}
         <div className="mt-[77px]">
-          <form action="" className="flex flex-col gap-5 lg:gap-6">
+          <form
+            action=""
+            className="flex flex-col gap-5 lg:gap-6"
+            onSubmit={handleSubmit}
+          >
             {/* Email / Username */}
             <input
               type="text"
+              name="username"
               placeholder="Email / Username"
+              autoComplete="off"
               className="text-xl font-light bg-transparent border-b h-[52px] focus:outline-none w-full placeholder:text-lg lg:placeholder:text-xl"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
             {/* Password */}
             <div className="flex items-center border-b">
               <input
                 type="password"
+                name="password"
                 placeholder="Password"
                 className="text-xl font-light bg-transparent h-[52px] focus:outline-none w-full placeholder:text-lg lg:placeholder:text-xl"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <img src={eyeIcon} alt="eyeIcon" className="size-6 lg:size-7" />
             </div>
+            {/* Forgot Password? */}
+            <p
+              className="mt-6 text-xs font-light text-beige lg:text-base"
+              type="submit"
+            >
+              Forgot Password?
+            </p>
+            {/* Login button */}
+            <button
+              className="font-medium border h-[43px] w-full mt-[77px] lg:text-xl lg:h-[56px]"
+              type="submit"
+            >
+              LOG IN
+            </button>
           </form>
-          {/* Forgot Password? */}
-          <p className="mt-6 text-xs font-light text-beige lg:text-base">
-            Forgot Password?
-          </p>
           {/* Sign Up */}
-          <button className="font-medium border h-[43px] w-full mt-[77px] lg:text-xl lg:h-[56px]">
-            LOG IN
-          </button>
           <p className="mt-[77px] text-center text-beige">
             Don't have an account?{" "}
             <span className="font-bold text-white">
-              <Link to="/login">SIGN UP</Link>
+              <Link to="/register">SIGN UP</Link>
             </span>
           </p>
         </div>
