@@ -9,6 +9,7 @@ export default {
     extend: {
       colors: {
         beige: "#E4C68F",
+        "dark-beige": "#948562",
       },
       screens: {
         desktop: "1366px",

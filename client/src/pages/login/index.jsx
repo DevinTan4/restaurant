@@ -18,7 +18,7 @@ const LoginPage = () => {
         if (result.data === "Success") {
           localStorage.setItem("token", result.data.token);
           alert("Login success!");
-          navigate("/");
+          navigate("/home");
         }
       })
       .catch((err) => console.log(err));
