@@ -10,6 +10,21 @@
   .bg-default {
     background-image: url("./assets/images/backgrounds/backgroundImgTablet.png");
   }
+
+  .reservation-bg {
+    height: 1398px;
+  }
+
+  .reservation-background {
+    background-image: url("./assets/images/backgrounds/blackBackgroundTabletImg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .reservation-wave-bg {
+    background-image: url("./assets/images/backgrounds/waveTextureTabletImg.png");
+    background-size: cover;
+  }
 }
 
 @media (min-width: 1366px) {
@@ -19,5 +34,27 @@
 }
 
 .home-bg {
-  background-image: url(./assets/images/backgrounds/homeBackgroundImgMobile.png);
+  background-image: url("./assets/images/backgrounds/homeBackgroundImgMobile.png");
+  background-repeat: repeat-y;
+  background-size: cover;
+}
+
+.reservation-bg {
+  background-image: url("./assets/images/backgrounds/footerImg.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.footer-bg {
+  background-image: url("./assets/images/backgrounds/footerBackgroundImg.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.reservation-background {
+  background-image: url("./assets/images/backgrounds/blackBackgroundImg.png");
+}
+
+.reservation-wave-bg {
+  background-image: url("./assets/images/backgrounds/waveTextureImg.png");
 }
