@@ -8,6 +8,8 @@ import youtubeIcon from "./youtubeIcon.png";
 import logoutIcon from "./logoutIcon.png";
 import binIcon from "./binIcon.png";
 import trashIcon from "./trashIcon.png";
+import minIcon from "./minIcon.png";
+import plusIcon from "./plusIcon.png";
 
 export {
   eyeIcon,
@@ -20,4 +22,6 @@ export {
   logoutIcon,
   binIcon,
   trashIcon,
+  minIcon,
+  plusIcon,
 };

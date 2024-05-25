@@ -15,10 +15,12 @@ const LoginPage = () => {
       .post("http://localhost:4000/account/login", { username, password })
       .then((result) => {
         console.log(result);
-        if (result.data === "Success") {
+        if (result.data.token) {
           localStorage.setItem("token", result.data.token);
           alert("Login success!");
           navigate("/home");
+        } else {
+          console.log("Login failed: ", result.data);
         }
       })
       .catch((err) => console.log(err));
