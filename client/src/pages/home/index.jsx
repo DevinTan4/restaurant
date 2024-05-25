@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   arrowRightIcon,
   hamburgerMenuIcon,
@@ -27,9 +27,58 @@ import {
   halfCircleTabletImg2,
   waveTextureImg,
 } from "../../assets/images/backgrounds";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const HomePage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    date: "",
+    time: "",
+    people: "",
+    note: "",
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/reservations",
+        formData,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
+      console.log("Reservation created:", response.data);
+      navigate("/tables");
+    } catch (error) {
+      if (error.response && error.response.data) {
+        console.error("Error creating reservation:", error.response.data);
+      } else {
+        console.error("Error creating reservation:", error.message);
+      }
+    }
+  };
 
   return (
     <div className="h-full home-bg">
@@ -53,19 +102,21 @@ const HomePage = () => {
                 <Link to="/home">Home</Link>
               </li>
               <li className="hover:text-white hover:border-b">
-                <a href="#">Tables</a>
+                <Link to="/tables">Tables</Link>
               </li>
               <li className="hover:text-white hover:border-b">
-                <a href="#">My Orders</a>
+                <a href="/orders">My Orders</a>
               </li>
               <li className="hover:text-white hover:border-b">
-                <a href="#">Online Reservation</a>
+                <a href="/cart">Payment</a>
               </li>
             </ul>
             <div className="flex items-center">
               <div className="hidden bg-gray-700 lg:flex items-center justify-center px-2 py-[14px] rounded w-[134px] font-inter h-10 gap-4 cursor-pointer">
                 <img src={logoutIcon} alt="logoutIcon" className="lg:size-6" />
-                <span className="text-white">Log out</span>
+                <span className="text-white" onClick={handleLogout}>
+                  Log out
+                </span>
               </div>
               <img
                 src={hamburgerMenuIcon}
@@ -161,13 +212,11 @@ const HomePage = () => {
 
               {/* Appetizers */}
               <div className="flex flex-col items-center w-full gap-3 text-white desktop:flex-row desktop:items-center desktop:mt-7">
-                <div>
-                  <img
-                    src={appetizerImg}
-                    alt="appetizerImg"
-                    className="lg:w-[896px] lg:h-[502px] desktop:w-[715px]"
-                  />
-                </div>
+                <img
+                  src={appetizerImg}
+                  alt="appetizerImg"
+                  className="lg:w-[896px] lg:h-[502px] desktop:w-[715px]"
+                />
                 <div className="w-full">
                   {/* Menu */}
                   <div className="w-full flex flex-col gap-[10px] lg:px-16">
@@ -179,12 +228,12 @@ const HomePage = () => {
                           Aburi Salmon Spicy Kani
                         </span>
                         <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                        <span className="text-beige lg:text-xl">65</span>
+                        <span className="text-beige lg:text-xl">85</span>
                       </div>
                       <div className="w-[200px] leading-none lg:w-[486px]">
                         <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Aut officia.
+                          Lightly seared salmon topped with a spicy crab
+                          mixture...
                         </span>
                       </div>
                     </div>
@@ -193,15 +242,15 @@ const HomePage = () => {
                       {/* Menu 2 */}
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-goudy lg:text-2xl">
-                          Salmon Ponzu Butter
+                          Gyu Tataki
                         </span>
                         <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                        <span className="text-beige lg:text-xl">85</span>
+                        <span className="text-beige lg:text-xl">68</span>
                       </div>
                       <div className="w-[200px] leading-none lg:w-[486px]">
                         <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Aut officia.
+                          Thinly sliced, seared beef served with a tangy ponzu
+                          sauce...
                         </span>
                       </div>
                     </div>
@@ -210,15 +259,15 @@ const HomePage = () => {
                       {/* Menu 3 */}
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-goudy lg:text-2xl">
-                          Gyu Tataki
+                          Mix Carpaccio
                         </span>
                         <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                        <span className="text-beige lg:text-xl">65</span>
+                        <span className="text-beige lg:text-xl">74</span>
                       </div>
                       <div className="w-[200px] leading-none lg:w-[486px]">
                         <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Aut officia.
+                          A selection of thinly sliced raw fish, including tuna
+                          and salmon...
                         </span>
                       </div>
                     </div>
@@ -227,15 +276,15 @@ const HomePage = () => {
                       {/* Menu 4 */}
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-goudy lg:text-2xl">
-                          Aburi Salmon Spicy Kani
+                          Salmon Ponzu Butter
                         </span>
                         <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                        <span className="text-beige lg:text-xl">65</span>
+                        <span className="text-beige lg:text-xl">89</span>
                       </div>
                       <div className="w-[200px] leading-none lg:w-[486px]">
                         <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Aut officia.
+                          Tender slices of salmon in a rich ponzu butter sauce,
+                          balancing...
                         </span>
                       </div>
                     </div>
@@ -244,15 +293,15 @@ const HomePage = () => {
                       {/* Menu 5 */}
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-goudy lg:text-2xl">
-                          Salmon Ponzu Butter
+                          Salmon Hamachi Carpaccio
                         </span>
                         <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                        <span className="text-beige">55</span>
+                        <span className="text-beige">120</span>
                       </div>
                       <div className="w-[200px] leading-none lg:w-[486px]">
                         <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Aut officia.
+                          A sophisticated combination of thinly sliced salmon
+                          and yellowtail...
                         </span>
                       </div>
                     </div>
@@ -292,15 +341,14 @@ const HomePage = () => {
                     {/* Menu 1 */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-goudy lg:text-2xl">
-                        Aburi Salmon Spicy Kani
+                        Kani Aburi Mentai Roll
                       </span>
                       <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                      <span className="text-beige lg:text-xl">65</span>
+                      <span className="text-beige lg:text-xl">79</span>
                     </div>
                     <div className="w-[200px] leading-none lg:w-[486px]">
                       <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Aut officia.
+                        A sushi roll filled with crab meat and topped with...
                       </span>
                     </div>
                   </div>
@@ -309,15 +357,14 @@ const HomePage = () => {
                     {/* Menu 2 */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-goudy lg:text-2xl">
-                        Salmon Ponzu Butter
+                        Classic Unagi
                       </span>
                       <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                      <span className="text-beige lg:text-xl">85</span>
+                      <span className="text-beige lg:text-xl">200</span>
                     </div>
                     <div className="w-[200px] leading-none lg:w-[486px]">
                       <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Aut officia.
+                        Grilled eel glazed with a sweet and savory...
                       </span>
                     </div>
                   </div>
@@ -326,15 +373,14 @@ const HomePage = () => {
                     {/* Menu 3 */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-goudy lg:text-2xl">
-                        Gyu Tataki
+                        Yumyum Tuna Roll
                       </span>
                       <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                      <span className="text-beige lg:text-xl">65</span>
+                      <span className="text-beige lg:text-xl">120</span>
                     </div>
                     <div className="w-[200px] leading-none lg:w-[486px]">
                       <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Aut officia.
+                        A delightful sushi roll featuring fresh tuna, avocado...
                       </span>
                     </div>
                   </div>
@@ -343,15 +389,30 @@ const HomePage = () => {
                     {/* Menu 4 */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-goudy lg:text-2xl">
-                        Aburi Salmon Spicy Kani
+                        Kanitama Dynamite
                       </span>
                       <div className="h-[1px] flex-grow bg-white mx-4"></div>
                       <span className="text-beige lg:text-xl">65</span>
                     </div>
                     <div className="w-[200px] leading-none lg:w-[486px]">
                       <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Aut officia.
+                        A sizzling dish combining crab meat and egg...
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    {/* Menu 5 */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-goudy lg:text-2xl">
+                        Maguro Shoyu Zuke
+                      </span>
+                      <div className="h-[1px] flex-grow bg-white mx-4"></div>
+                      <span className="text-beige lg:text-xl">142</span>
+                    </div>
+                    <div className="w-[200px] leading-none lg:w-[486px]">
+                      <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
+                        Marinated tuna in a soy-based sauce...
                       </span>
                     </div>
                   </div>
@@ -381,7 +442,7 @@ const HomePage = () => {
                 <img
                   src={drinksImg}
                   alt="drinksImg"
-                  className="lg:-[896px] lg:h-[502px] desktop:w-[715px]"
+                  className="lg:w-[896px] lg:h-[502px] desktop:w-[715px]"
                 />
                 {/* Menu */}
                 <div className="w-full flex flex-col gap-[10px] lg:px-16">
@@ -390,14 +451,14 @@ const HomePage = () => {
                     {/* Menu 1 */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-goudy lg:text-2xl">
-                        Pristine Water
+                        Ocha Tea
                       </span>
                       <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                      <span className="text-beige lg:text-xl">65</span>
+                      <span className="text-beige lg:text-xl">11</span>
                     </div>
                     <div className="w-[200px] leading-none lg:w-[486px]">
                       <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                        Mineral water
+                        Classic Japanese green tea known for its light...
                       </span>
                     </div>
                   </div>
@@ -406,14 +467,15 @@ const HomePage = () => {
                     {/* Menu 2 */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-goudy lg:text-2xl">
-                        Coca Cola Can
+                        Lemon Peel Tea
                       </span>
                       <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                      <span className="text-beige lg:text-xl">85</span>
+                      <span className="text-beige lg:text-xl">29</span>
                     </div>
                     <div className="w-[200px] leading-none lg:w-[486px]">
                       <span className="flex-wrap text-[10px] font-light font-inter lg:text-base">
-                        Carbonated soft drink
+                        Fragrant and refreshing tea made with dried lemon
+                        peel...
                       </span>
                     </div>
                   </div>
@@ -422,14 +484,15 @@ const HomePage = () => {
                     {/* Menu 3 */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-goudy lg:text-2xl">
-                        Sprite Can
+                        Leychee Tea
                       </span>
                       <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                      <span className="text-beige lg:text-xl">65</span>
+                      <span className="text-beige lg:text-xl">29</span>
                     </div>
                     <div className="w-[200px] leading-none">
                       <span className="flex-wrap text-[10px] font-light font-inter">
-                        Carbonated soft drink
+                        Sweet and aromatic tea infused with delicate lychee
+                        fruit...
                       </span>
                     </div>
                   </div>
@@ -438,14 +501,30 @@ const HomePage = () => {
                     {/* Menu 4 */}
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-goudy lg:text-2xl">
-                        Chi Forest
+                        Orange Tea
                       </span>
                       <div className="h-[1px] flex-grow bg-white mx-4"></div>
-                      <span className="text-beige">65</span>
+                      <span className="text-beige">29</span>
                     </div>
                     <div className="w-[200px] leading-none">
                       <span className="flex-wrap text-[10px] font-light font-inter">
-                        Sparkling water
+                        Citrus-infused tea made with orange peel...
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    {/* Menu 5 */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-goudy lg:text-2xl">
+                        Matcha
+                      </span>
+                      <div className="h-[1px] flex-grow bg-white mx-4"></div>
+                      <span className="text-beige">32</span>
+                    </div>
+                    <div className="w-[200px] leading-none">
+                      <span className="flex-wrap text-[10px] font-light font-inter">
+                        Traditional Japanese powdered green tea...
                       </span>
                     </div>
                   </div>
@@ -477,29 +556,47 @@ const HomePage = () => {
 
               {/* Reservation Form */}
               <div className="px-8 pt-6 pb-[33px] lg:px-[92px] lg:pt-[69px]">
-                <form action="" className="gap-[11px] flex flex-col">
+                <form
+                  action=""
+                  className="gap-[11px] flex flex-col"
+                  onSubmit={handleSubmit}
+                >
                   {/* Date */}
                   <input
                     type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
                     className="w-full text-white bg-[#191919] lg:h-14 lg:placeholder:text-xl"
                   />
                   <div className="flex w-full gap-2">
                     <input
                       type="time"
+                      name="time"
+                      value={formData.time}
+                      onChange={handleChange}
                       className="bg-[#191919] w-1/2 text-white lg:h-14 lg:placeholder:text-xl"
                     />
                     <input
-                      type="text"
+                      type="number"
+                      name="people"
+                      value={formData.people}
+                      onChange={handleChange}
                       className="bg-[#191919] w-1/2 text-white lg:h-14 lg:placeholder:text-xl"
                     />
                   </div>
                   <input
                     type="text"
                     name="note"
+                    value={formData.note}
+                    onChange={handleChange}
                     className="bg-[#191919] w-full text-white placeholder:text-xs font-inter lg:h-14 lg:placeholder:text-xl"
                     placeholder="Note"
                   />
-                  <button className="h-6 text-[10px] tracking-wider text-white border font-inter border-beige lg:mt-[93px] lg:h-24 lg:text-xl">
+                  <button
+                    type="submit"
+                    className="h-6 text-[10px] tracking-wider text-white border font-inter border-beige lg:mt-[93px] lg:h-24 lg:text-xl"
+                  >
                     CHECK AVAILABILITY
                   </button>
                 </form>
