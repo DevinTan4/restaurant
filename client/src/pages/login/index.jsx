@@ -64,7 +64,7 @@ const LoginPage = () => {
             <input
               type="text"
               name="username"
-              placeholder="Email / Username"
+              placeholder="Username"
               autoComplete="off"
               className="text-xl font-light bg-transparent border-b h-[52px] focus:outline-none w-full placeholder:text-lg lg:placeholder:text-xl"
               value={username}
