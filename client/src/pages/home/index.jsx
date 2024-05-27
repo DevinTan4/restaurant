@@ -58,7 +58,7 @@ const HomePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
         "http://localhost:4000/api/reservations",

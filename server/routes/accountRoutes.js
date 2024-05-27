@@ -5,6 +5,7 @@ const authenticateJWT = require("../middleware/auth");
 
 router.post("/register", accountController.register);
 router.post("/login", accountController.login);
+router.get("/user", accountController.getAccounts);
 
 router.get("/protected", authenticateJWT, (req, res) => {
   res.json("This is a protected route");

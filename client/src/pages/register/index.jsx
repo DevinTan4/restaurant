@@ -27,6 +27,7 @@ const RegisterPage = () => {
       .then((result) => console.log(result))
       .catch((error) => console.log(error));
     handleSignUp();
+    alert("Sign Up Successful");
   };
 
   return (

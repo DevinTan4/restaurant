@@ -46,7 +46,17 @@ const login = async (req, res) => {
   }
 };
 
+const getAccounts = async (req, res) => {
+  try {
+    const accounts = await AccountModel.find({}, "-password");
+    res.json(accounts);
+  } catch (error) {
+    res.json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   register,
   login,
+  getAccounts,
 };

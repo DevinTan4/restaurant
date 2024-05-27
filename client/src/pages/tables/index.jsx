@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { hamburgerMenuIcon } from "../../assets/icons";
+import { hamburgerMenuIcon, logoutIcon } from "../../assets/icons";
 import {
   greenStatusImg,
   kikkoImg,
@@ -7,7 +7,7 @@ import {
   yellowStatusImg,
 } from "../../assets/images";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const TablesPage = () => {
   const [tables, setTables] = useState([]);
@@ -64,17 +64,57 @@ const TablesPage = () => {
   const availableTablesCount = tables.filter(
     (table) => table.status === "vacant"
   ).length;
-  // Total jumlah tabel
   const totalTablesCount = tables.length;
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <div className="h-full home-bg">
-      {/* Navbar */}
       <header>
+        {/* Navbar */}
         <nav>
-          <div className="flex items-center justify-between px-8 pt-3">
-            <img src={kikkoImg} alt="kikkoLogo" />
-            <img src={hamburgerMenuIcon} alt="hamburgerMenuIcon" />
+          <div className="px-6 pt-5 h-[29px] flex justify-between items-center">
+            <img
+              src={kikkoImg}
+              alt="hamburgerMenuIcon"
+              className="w-[124px] h-[45px]"
+            />
+            <ul className="hidden lg:flex lg:text-beige lg:gap-10">
+              <li className="hover:border-b hover:text-white">
+                <Link to="/home">Home</Link>
+              </li>
+              <li
+                className={`${
+                  location.pathname == "/tables"
+                    ? "text-white border-b pb-1"
+                    : "text-beige"
+                }`}
+              >
+                <Link to="/tables">Tables</Link>
+              </li>
+              <li className="hover:text-white hover:border-b">
+                <a href="/orders">My Orders</a>
+              </li>
+              <li className="hover:text-white hover:border-b">
+                <a href="/cart">Payment</a>
+              </li>
+            </ul>
+            <div className="flex items-center">
+              <div className="hidden bg-gray-700 lg:flex items-center justify-center px-2 py-[14px] rounded w-[134px] font-inter h-10 gap-4 cursor-pointer">
+                <img src={logoutIcon} alt="logoutIcon" className="lg:size-6" />
+                <span className="text-white" onClick={handleLogout}>
+                  Log out
+                </span>
+              </div>
+              <img
+                src={hamburgerMenuIcon}
+                alt="profileIcon"
+                className="size-5 lg:hidden"
+              />
+            </div>
           </div>
         </nav>
       </header>
@@ -90,7 +130,7 @@ const TablesPage = () => {
           </div>
 
           {/* Table cards */}
-          <div className="mt-[11px] flex flex-col font-inter gap-4">
+          <div className="mt-[11px] flex flex-col font-inter gap-4 lg:grid lg:grid-cols-2 desktop:grid-cols-3">
             {tables.map((table) => (
               <div
                 key={table._id}
@@ -101,7 +141,7 @@ const TablesPage = () => {
                   <h1 className="font-semibold text-beige">{table.name}</h1>
                   <div>
                     <p>
-                      {table.reservation
+                      {table.reservation && table.reservation.user
                         ? table.reservation.user.username || "N/A"
                         : "N/A"}
                     </p>
